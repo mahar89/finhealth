@@ -1,0 +1,111 @@
+Build a single-page financial health calculator web app for Indian salaried professionals.
+
+USER FLOW:
+1. Landing page with warm welcome message and "Start Assessment" button
+2. Question flow - show one question at a time with smooth transitions
+3. Results page with personalized asset allocation and recommendations
+4. Call-to-action for paid consultation at the end
+
+QUESTIONS (7 total, show one per screen):
+
+Question 1: "What's your age?"
+- Options: Under 25 / 25-30 / 30-35 / 35-40 / 40-45 / 45+
+
+Question 2: "What's your monthly in-hand salary?"
+- Options: Under ₹50,000 / ₹50,000-1,00,000 / ₹1,00,000-2,00,000 / Above ₹2,00,000
+
+Question 3: "How much have you saved so far (approximate total)?"
+- Options: Under ₹5 lakhs / ₹5-10 lakhs / ₹10-25 lakhs / ₹25-50 lakhs / Above ₹50 lakhs
+
+Question 4: "Do you have financial dependents (kids, parents, spouse)?"
+- Options: Yes / No
+
+Question 5: "What's your top financial goal?"
+- Options: Retirement / Buy a home / Kids' education / Financial freedom / Emergency fund
+
+Question 6: "If the stock market drops 20% tomorrow, you would:"
+- Options: Panic and sell everything / Feel nervous but hold on / See it as a buying opportunity
+
+Question 7: "Current monthly expenses (approximate)?"
+- Options: Under ₹30,000 / ₹30,000-60,000 / ₹60,000-1,00,000 / Above ₹1,00,000
+
+RESULTS PAGE REQUIREMENTS:
+
+After user completes all questions, use Claude API (Anthropic) to generate personalized recommendations. The API call should send all answers and ask Claude to return:
+
+1. Asset Allocation (as percentages):
+   - Equity (mutual funds/stocks): X%
+   - Debt (FDs/bonds): Y%
+   - Gold: Z%
+   - Emergency cash: Amount in rupees
+
+2. Emergency Fund Target: Calculate as 6 months of their monthly expenses
+
+3. Financial Health Score: 0-100 based on their profile
+
+4. 3 Specific Action Items personalized to their situation
+
+Display results in a clean card-based layout with:
+- Pie chart or bar chart for asset allocation (use a charting library like Recharts)
+- Big number display for Financial Health Score with color coding (red <40, orange 40-60, yellow 60-75, green 75+)
+- List of action items with checkboxes (visual only)
+- Emergency fund amount highlighted in a separate card
+
+DESIGN REQUIREMENTS:
+- Use a warm, friendly color palette (not corporate banking blue)
+- Indian flag colors as accents (saffron #FF9933, green #138808, navy #000080)
+- Mobile-first responsive design
+- Use Inter or Poppins font
+- Smooth transitions between questions
+- Progress indicator showing question X of 7
+- "Back" button to go to previous question
+
+TECHNICAL REQUIREMENTS:
+- React with TypeScript
+- Use Anthropic Claude API (claude-sonnet-4-5-20250514 model)
+- No user authentication needed
+- No data persistence - all calculations happen in real-time
+- Include error handling if API call fails
+
+CTA AT END:
+After showing results, display a prominent call-to-action:
+"Want a detailed personalized plan with exact numbers? Book a 30-minute consultation for ₹999"
+With a button linking to [I'll add Calendly link later]
+
+CLAUDE API PROMPT STRUCTURE:
+When calling Claude API, send this prompt:
+
+"You are a financial advisor for Indian salaried professionals. Based on these details:
+- Age: [answer]
+- Monthly income: [answer]
+- Current savings: [answer]
+- Dependents: [answer]
+- Top goal: [answer]
+- Risk appetite: [answer]
+- Monthly expenses: [answer]
+
+Provide a response in this EXACT JSON format:
+{
+  "allocation": {
+    "equity": 60,
+    "debt": 30,
+    "gold": 10
+  },
+  "emergency_fund": 180000,
+  "health_score": 72,
+  "action_items": [
+    "Start a SIP of ₹10,000 per month in a Nifty 50 index fund",
+    "Build emergency fund to ₹3 lakhs - keep it in a liquid fund or high-interest savings account",
+    "Review and cut discretionary spending by 10% to increase savings rate"
+  ],
+  "reasoning": "Brief 2-3 sentence explanation of why this allocation suits them"
+}
+
+Use standard Indian asset allocation principles. Adjust equity % based on age (younger = more equity) and risk appetite. Be conservative with recommendations. Emergency fund should be 6 months of expenses. Health score should consider savings rate, emergency fund adequacy, and age-appropriate allocation."
+
+HOMEPAGE COPY:
+Headline: "Know Exactly Where Your Money Should Go"
+Subheading: "Get personalized asset allocation in 2 minutes. No signup, no personal details needed."
+Button: "Start Free Assessment →"
+
+Keep the tone warm, simple, and encouraging throughout - not intimidating or overly financial.
