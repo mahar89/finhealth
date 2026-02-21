@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { ScoreResult, LeadData } from "@/lib/types";
+import { ScoreResult, LeadData, Stage1Answers } from "@/lib/types";
 import {
   PieChart,
   Pie,
@@ -18,11 +18,14 @@ import {
   Loader2,
   CheckCircle2,
   ArrowRight,
+  Sparkles,
 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
+import { questions } from "@/lib/quiz-data";
 
 interface ResultsViewProps {
   result: ScoreResult;
+  answers: Record<number, string>;
 }
 
 const PILLAR_CONFIG = [
