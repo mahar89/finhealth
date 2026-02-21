@@ -62,12 +62,28 @@ function formatAmount(amount: number): string {
   return `₹${amount.toLocaleString("en-IN")}`;
 }
 
-export function ResultsView({ result }: ResultsViewProps) {
+export function ResultsView({ result, answers }: ResultsViewProps) {
   const [, navigate] = useLocation();
   const [form, setForm] = useState({ name: "", email: "", phone: "", notify: true });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Convert answers to Stage1Answers format for the Ignite flow
+  const handleUnlockIgnite = () => {
+    const stage1Data: Stage1Answers = {
+      age: answers[1] || '',
+      monthlyIncome: answers[2] || '',
+      monthlyExpenses: answers[3] || '',
+      totalSavings: answers[4] || '',
+      loans: answers[5] || '',
+      insurance: answers[6] || '',
+      marketBehavior: answers[7] || '',
+      primaryGoal: answers[8] || '',
+    };
+    sessionStorage.setItem('stage1Data', JSON.stringify(stage1Data));
+    navigate('/teaser');
+  };
 
   const scoreColor = getScoreColor(result.score);
   const circumference = 2 * Math.PI * 54;
